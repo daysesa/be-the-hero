@@ -11,7 +11,7 @@ import styles from './styles';
 
 export default function Incidents(){
     const [incidents,setIncidents] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState('0');
     
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -36,7 +36,8 @@ export default function Incidents(){
         const response = await api.get('casos', {params: { page}});
 
         setIncidents([... incidents, ... response.data]);
-        setTotal(response.headers['X-Total-Count']);
+        setTotal(response.headers['x-total-count']);
+
         setPage(page + 1);
         setLoading(false);
     }
@@ -58,7 +59,7 @@ export default function Incidents(){
             <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
         
             <FlatList 
-                data={[incidents]}
+                data={incidents}
                 style={styles.incidentList}
                 keyExtractor={incident => String(incidents.id)}
                 showsVerticalScrollIndicator={false}
